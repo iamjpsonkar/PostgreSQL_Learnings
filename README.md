@@ -307,8 +307,67 @@ SELECT * FROM person WHERE email LIKE '%@intel%';
 
 ```sql
  SELECT * FROM person WHERE email LIKE 'a_s%';
- ```
- <img src=".\Images\LIKE_wildcar_2_operator.png"/>
+```
+
+<img src=".\Images\LIKE_wildcar_2_operator.png"/>
+
+#### ILIKE Operator
+
+Same as a Like operator but has no case-sensitive comparisons. 
+
+```sql
+SELECT * FROM person WHERE email ILIKE 'p%';
+```
+
+<img src=".\Images\ILIKE_wildcar_1_operator.png"/>
+
+```sql
+ SELECT * FROM person WHERE email ILIKE 'a_s%';
+```
+
+<img src=".\Images\ILIKE_wildcar_2_operator.png"/>
+
+### GROUP BY Clause
+This clause is used to group data, based on any column that is returned by the "SELECT" command.
+
+```sql
+SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth;
+```
+
+<img src=".\Images\GROUP_BY_clause.png"/>
+
+### GROUP BY X HAVING Y Clause
+This clause is used to group data, based on any column that is returned by the "SELECT" command, X and then apply condition Y to the result
+
+```sql
+SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth HAVING COUNT(*)>10;
+```
+
+<img src=".\Images\GROUP_BY_HAVING_clause.png"/>
+
+#### Aggregate Functions
+
+| Function                          	| Argument Type(s)                                                                	| Return Type                                                                                                                         	| Description                                                                                                                          	|
+|-----------------------------------	|---------------------------------------------------------------------------------	|-------------------------------------------------------------------------------------------------------------------------------------	|--------------------------------------------------------------------------------------------------------------------------------------	|
+| array_agg(expression)             	| any non-array type                                                              	| array of the argument type                                                                                                          	| input values, including nulls, concatenated into an array                                                                            	|
+| array_agg(expression)             	| any array type                                                                  	| same as argument data type                                                                                                          	| input arrays concatenated into array of one higher dimension (inputs must all have same dimensionality, and cannot be empty or null) 	|
+| avg(expression)                   	| smallint, int, bigint, real, double precision, numeric, or interval             	| numeric for any integer-type argument, double precision for a floating-point argument, otherwise the same as the argument data type 	| the average (arithmetic mean) of all non-null input values                                                                           	|
+| bit_and(expression)               	| smallint, int, bigint, or bit                                                   	| same as argument data type                                                                                                          	| the bitwise AND of all non-null input values, or null if none                                                                        	|
+| bit_or(expression)                	| smallint, int, bigint, or bit                                                   	| same as argument data type                                                                                                          	| the bitwise OR of all non-null input values, or null if none                                                                         	|
+| bool_and(expression)              	| bool                                                                            	| bool                                                                                                                                	| true if all input values are true, otherwise false                                                                                   	|
+| bool_or(expression)               	| bool                                                                            	| bool                                                                                                                                	| true if at least one input value is true, otherwise false                                                                            	|
+| count(*)                          	|                                                                                 	| bigint                                                                                                                              	| number of input rows                                                                                                                 	|
+| count(expression)                 	| any                                                                             	| bigint                                                                                                                              	| number of input rows for which the value of expression is not null                                                                   	|
+| every(expression)                 	| bool                                                                            	| bool                                                                                                                                	| equivalent to bool_and                                                                                                               	|
+| json_agg(expression)              	| any                                                                             	| json                                                                                                                                	| aggregates values, including nulls, as a JSON array                                                                                  	|
+| jsonb_agg(expression)             	| any                                                                             	| jsonb                                                                                                                               	| aggregates values, including nulls, as a JSON array                                                                                  	|
+| json_object_agg(name, value)      	| (any, any)                                                                      	| json                                                                                                                                	| aggregates name/value pairs as a JSON object; values can be null, but not names                                                      	|
+| jsonb_object_agg(name, value)     	| (any, any)                                                                      	| jsonb                                                                                                                               	| aggregates name/value pairs as a JSON object; values can be null, but not names                                                      	|
+| max(expression)                   	| any numeric, string, date/time, network, or enum type, or arrays of these types 	| same as argument type                                                                                                               	| maximum value of expression across all non-null input values                                                                         	|
+| min(expression)                   	| any numeric, string, date/time, network, or enum type, or arrays of these types 	| same as argument type                                                                                                               	| minimum value of expression across all non-null input values                                                                         	|
+| string_agg(expression, delimiter) 	| (text, text) or (bytea, bytea)                                                  	| same as argument types                                                                                                              	| non-null input values concatenated into a string, separated by delimiter                                                             	|
+| sum(expression)                   	| smallint, int, bigint, real, double precision, numeric, interval, or money      	| bigint for smallint or int arguments, numeric for bigint arguments, otherwise the same as the argument data type                    	| sum of expression across all non-null input values                                                                                   	|
+| xmlagg(expression)                	| xml                                                                             	| xml                                                                                                                                 	| concatenation of non-null XML values (see also Section 9.14.1.7                                                                      	|
 
 ### LIMIT N Keyword
 This keyword helps to restrict/limit the number of rows for the output of the "SELECT" command. It will return only up to N rows, from TOP.
