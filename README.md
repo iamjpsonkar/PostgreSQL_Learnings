@@ -9,7 +9,7 @@ SQL - It is the Structured Query Language. It is a programming language.
 PostgreSQL - It is the Database Engine.
 - Object-Relational Database Management System
 
-## PostgreSQL
+> # PostgreSQL
 
 ## Installation
 
@@ -404,3 +404,197 @@ SELECT * FROM person FETCH FIRST 5 ROWS ONLY;
 ```
 <img src=".\Images\Fetch_first_N_rows_only_keyword.png"/>
 
+
+### Calculating MIN, MAX and AVERAGE
+
+#### MIN
+
+```sql
+SELECT MIN(price) FROM car;
+```
+
+<img src=".\Images\MIN.png"/>
+
+#### MAX
+
+```sql
+SELECT MAX(price) FROM car;
+```
+
+<img src=".\Images\MAX.png"/>
+
+#### AVG
+
+```sql
+SELECT AVG(price) FROM car;
+```
+
+<img src=".\Images\AVG.png"/>
+
+
+## Arithmetics Operator
+
+```sql
+SELECT id, make, model, price, round(price-price*0.10,2) FROM car;
+```
+
+<img src=".\Images\Arithmetical_operation.png"/>
+
+# Other Keywords and Functions
+
+## ALIAS
+
+```sql
+SELECT id, make, model, price, round(price-price*0.10,2) AS discounted_price FROM car;
+```
+
+<img src=".\Images\Arithmetical_operation_with_alias.png"/>
+
+
+## COALESCE
+This Keyword/function is used when we want to replace null/empty values with something else;
+<blockquote>
+COALESCE(A, B, C, ...): This will return the first not null value.
+</blockquote>
+
+```sql
+SELECT email FROM person;
+```
+<img src=".\Images\COALESCE_without.png"/>
+
+```sql
+SELECT COALESCE(email, 'No Email Found') FROM person;
+```
+<img src=".\Images\COALESCE_with.png"/>
+
+
+## NULLIF
+This keyword/function takes two values, if both values are equal it returns null else it returns the first value.
+```sql
+SELECT NULLIF(10,10);
+SELECT NULLIF(10,5);
+```
+
+<img src=".\Images\NULLIF_use.png"/>
+
+### Handling Divide By Zero using COALESCE and NULLIF
+
+```sql
+SELECT COALESCE(10/NULLIF(0,0),0);
+```
+<img src=".\Images\Divide_by_zero.png"/>
+
+## TIMESTAMP and DATE
+
+### NOW
+```sql
+SELECT NOW();
+```
+
+<img src=".\Images\NOW.png"/>
+
+### NOW()::DATE
+```sql
+SELECT NOW()::DATE;
+```
+
+<img src=".\Images\NOW_DATE.png"/>
+
+
+### NOW()::TIME
+```sql
+SELECT NOW()::TIME;
+```
+
+<img src=".\Images\NOW_TIME.png"/>
+
+### INTERVAL
+```sql
+SELECT NOW(), NOW() - INTERVAL '10 YEARS';
+SELECT NOW(), NOW() - INTERVAL '10 YEAR';
+```
+
+<img src=".\Images\INTERVAL.png"/>
+
+```sql
+SELECT NOW(), NOW() - INTERVAL '10 MONTHS';
+SELECT NOW(), NOW() - INTERVAL '10 DAY';
+SELECT NOW(), NOW() + INTERVAL '10 DAY';
+SELECT NOW(), NOW() + INTERVAL '10 DAYS';
+```
+
+<img src=".\Images\INTERVAL_1.png"/>
+
+```sql
+SELECT NOW(), NOW() + INTERVAL '10 HOURS';
+SELECT NOW(), NOW() + INTERVAL '10 MINUTES';
+SELECT NOW(), NOW() + INTERVAL '10 SECONDS';
+```
+<img src=".\Images\INTERVAL_2.png"/>
+
+### EXTRACT
+
+```sql
+SELECT NOW(), EXTRACT(YEAR FROM NOW()), EXTRACT(MONTH FROM NOW()), EXTRACT(DAY FROM NOW()), EXTRACT(HOURS FROM NOW()), EXTRACT(MINUTES FROM NOW()), EXTRACT(SECONDS FROM NOW());
+```
+
+<img src=".\Images\EXTRACT.png"/>
+
+# CONSTRAINTS
+
+## PRIMARY KEYS CONSTRAINT
+It is a value/column that uniquely defines each row, and it can be used to distinguish each row.
+
+
+To remove a PRIMARY KEY constraint
+```sql
+\d person
+ALTER TABLE person DROP CONSTRAINT person_pkey;
+\d person
+```
+<img src=".\Images\DROP_CONSTRAINT_primary_key.png"/>
+
+To add a PRIMARY KEY constraint
+```sql
+\d person
+ALTER TABLE person ADD CONSTRAINT person_pkey PRIMARY KEY (id);
+\d person
+```
+
+<img src=".\Images\ADD_CONSTRAINT_primary_key.png"/>
+
+## UNIQUE CONSTRAINT
+
+To add a UNIQUE constraint
+```sql
+\d person
+ALTER TABLE person ADD CONSTRAINT unique_email_address UNIQUE(email);
+\d person
+```
+<img src=".\Images\ADD_CONSTRAINT_unique.png"/>
+
+To remove a UNIQUE constraint
+```sql
+\d person
+ALTER TABLE person DROP CONSTRAINT unique_email_address;
+\d person
+```
+<img src=".\Images\DROP_CONSTRAINT_unique.png"/>
+
+## CHECK CONSTRAINT
+
+To add a UNIQUE constraint
+```sql
+\d person
+ALTER TABLE person ADD CONSTRAINT gender_constraint CHECK (gender IN ('Genderqueer', 'Bigender', 'Genderfluid', 'Male', 'Polygender', 'Non-binary', 'Female', 'Agender'));
+\d person
+```
+<img src=".\Images\ADD_CONSTRAINT_check.png"/>
+
+To remove a UNIQUE constraint
+```sql
+\d person
+ALTER TABLE person DROP CONSTRAINT gender_constraint;
+\d person
+```
+<img src=".\Images\DROP_CONSTRAINT_check.png"/>
